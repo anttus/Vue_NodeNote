@@ -1,27 +1,25 @@
 "use strict";
 
-const urlStart = "http://localhost:8081/";
+const urlStart = "http://localhost:8080/";
 import axios from "axios";
 
 // const AUTH_TOKEN = 'Authorization: Basic cmVzdC5hcGk6c3VwZXJzZWNyZXQxMjM=';
 // axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 // const BASIC_AUTH = 'Basic ' + btoa('rest.api' + ':' + 'supersecret123');
+// auth: {
+//     username: 'rest.api',
+//     password: 'supersecret123'
+// }
 
 async function getFromUrl(url) {
-  try {
-    const response = await axios.get(url, {
-      validateStatus: function(status) {
-        return status < 500; // Reject only if the status code is greater than or equal to 500
-      }
-      // auth: {
-      //     username: 'rest.api',
-      //     password: 'supersecret123'
-      // }
+  const response = await axios
+    .get(url, status => {
+      return status < 500; // Reject only if the status code is greater than or equal to 500
+    })
+    .catch(err => {
+      throw new Error(err.message);
     });
-    return response;
-  } catch (err) {
-    throw err;
-  }
+  return response;
 }
 
 // FUTURE DEVELOPMENT

@@ -6,18 +6,25 @@
       v-on:items-list="renderItems"
       v-on:cur-list="setCurList"
     />
-    <div v-if='currentList !== ""'>
+    <div v-if="currentList !== ''">
       <div class="homeHeader">
         <h1 class="currentList" v-bind:currentList="currentList">{{currentList.Name}}</h1>
-        <button v-on:click="isHidden = !isHidden" class="showHideSharedWith">Shared with: <div v-if="!isHidden"><font-awesome-icon icon="chevron-up"/></div>
-        <div v-else><font-awesome-icon icon="chevron-down"/></div></button>
-        <div v-if="!isHidden"><p class="sharedTo" v-bind:key="email" v-for="email in listSharedTo">{{email}}</p></div>
+        <button v-on:click="isHidden = !isHidden" class="showHideSharedWith">Shared with: &nbsp;
+          <div v-if="!isHidden">
+            <font-awesome-icon icon="chevron-up"/>
+          </div>
+          <div v-else>
+            <font-awesome-icon icon="chevron-down"/>
+          </div>
+        </button>
+        <div v-if="!isHidden">
+          <p class="sharedTo" v-bind:key="email" v-for="email in listSharedTo">{{email}}</p>
+        </div>
       </div>
       <AddItem v-on:add-item="addItem"/>
       <Items v-bind:items="items" v-on:delete-item="deleteItem"/>
     </div>
     <div v-else class="noListsDiv">Start by pressing the "+" button!</div>
-    
   </div>
 </template>
 
@@ -39,9 +46,8 @@ export default {
   data() {
     return {
       items: [],
-      completeItems: [],
       user: firebase.auth().currentUser,
-      currentList: "",
+      currentList: Object,
       listSharedTo: [],
       isHidden: true
     };
@@ -50,6 +56,7 @@ export default {
     deleteItem(id) {
       let itemToDel = this.items.filter(el => el.Item_id === id)[0];
       this.items = this.items.filter(item => item.Item_id !== id);
+      console.log(itemToDel);
       this.$refs.Header.deleteItem(
         itemToDel.List_id,
         itemToDel.Item_id,
@@ -73,10 +80,8 @@ export default {
     renderItems(items) {
       this.items = [];
       items.forEach(element => {
-        if (element.Completed === 0) this.items.push(element);
-        else this.completeItems.push(element);
+        this.items.push(element);
       });
-      this.items.push(...this.completeItems);
     },
     setCurList(list) {
       this.currentList = list;
@@ -84,12 +89,12 @@ export default {
     },
     getListSharedTo() {
       this.listSharedTo = [];
-      db.getSharedToUsers(this.currentList.List_id).then((res) => {
+      db.getSharedToUsers(this.currentList.List_id).then(res => {
         res.data.forEach(v => {
-          this.listSharedTo.push(v['email']);
+          this.listSharedTo.push(v["email"]);
         });
       });
-    },
+    }
   }
 };
 </script>
@@ -122,15 +127,17 @@ body {
   text-align: center;
   margin-top: 20px;
 }
-.sharedTo {
-  margin: 0;
-  text-align: center;
-}
 .homeHeader {
   text-align: center;
 }
+.sharedTo {
+  margin: 0;
+}
+.showHideSharedWith {
+  display: flex;
+}
 .showHideSharedWith:focus {
-  outline:0;
+  outline: 0;
 }
 .noListsDiv {
   text-align: center;

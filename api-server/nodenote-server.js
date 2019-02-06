@@ -3,7 +3,7 @@ const app = express();
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const port = process.env.PORT || 8081;
+const port = process.env.PORT || 8080;
 const routes = require('./routes/routes');
 
 app.use(logger('dev'));

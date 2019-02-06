@@ -66,6 +66,8 @@ input[type="text"] {
   padding: 10px;
   border: 1px solid #aaa;
   font-size: 15px;
+  outline: 0;
+  margin-bottom: 10px;
 }
 
 input[type="submit"] {
@@ -75,7 +77,7 @@ input[type="submit"] {
 .btn {
   padding: 11px;
   font-size: 15px;
-  margin-left: 5px;
+  margin-bottom: 10px;
   width: 39px;
   transition: 0.7s;
 }

@@ -65,14 +65,13 @@ export default {
     },
     openShareDialog(list) {
       this.listIdToShare = list.List_id;
-      this.$root.$share
-        .open(
-          "List sharing",
-          'Who do you want to share the list "' + list.Name + '" with?',
-          {
-            color: "gray"
-          }
-        )
+      this.$root.$share.open(
+        "List sharing",
+        'Who do you want to share the list "' + list.Name + '" with?',
+        {
+          color: "gray"
+        }
+      );
     },
     openList(list) {
       this.currentList = list;
@@ -90,7 +89,7 @@ export default {
       db.getListsOfUser(this.curUser.uid).then(res => {
         this.userLists = res.data;
         if (this.userLists.length != 0) {
-          this.currentList = this.userLists[0];
+          this.currentList = this.userLists[0]; // From localstorage?
           this.loadItems(this.currentList.List_id);
         }
       });
@@ -130,8 +129,7 @@ export default {
             db.shareList(email, this.listIdToShare);
             this.$refs.share.resolve(true);
             this.$refs.share.dialog = false;
-          }
-          else this.$refs.share.alertShare(email);
+          } else this.$refs.share.alertShare(email);
         });
       }
     }

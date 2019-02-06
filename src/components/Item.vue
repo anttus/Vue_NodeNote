@@ -1,11 +1,9 @@
 <template>
   <div class="list-item" v-bind:class="{'is-complete':item.Completed}">
-    <div class="item">
-      <button alt="Set the item as done" v-on:click="setComplete" class="checkComplete">
-        <font-awesome-icon icon="check"/>
-      </button>
-      {{item.Name}}
-    </div>
+    <button alt="Set the item as done" v-on:click="setComplete" class="checkComplete">
+      <font-awesome-icon icon="check"/>
+    </button>
+    <div class="item">{{item.Name}}</div>
     <button @click="$emit('delete-item', item.Item_id)" class="delete">
       <font-awesome-icon icon="times"/>
     </button>
@@ -13,17 +11,16 @@
 </template>
 
 <script>
-const db = require('../../api-server/db/dbController');
+const db = require("../../api-server/db/dbController");
 
 export default {
   name: "Item",
   props: ["item"],
   methods: {
     setComplete() {
-      this.item.Completed = !this.item.Completed;
-      let complete = 0;
-      if (this.item.Completed) complete = 1;
-      db.setItemStatus(this.item.Item_id, complete);
+      if (this.item.Completed === 0) this.item.Completed = 1;
+      else this.item.Completed = 0;
+      db.setItemStatus(this.item.Item_id, this.item.Completed);
     }
   }
 };
@@ -39,6 +36,7 @@ export default {
 }
 .item {
   flex: 10;
+  overflow-wrap: break-word;
 }
 .is-complete {
   text-decoration: line-through;
