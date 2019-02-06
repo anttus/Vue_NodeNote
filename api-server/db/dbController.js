@@ -1,6 +1,6 @@
 "use strict";
 
-const urlStart = "http://localhost:8080/";
+const urlStart = "http://anttus.ddns.net:8080/";
 import axios from "axios";
 
 // const AUTH_TOKEN = 'Authorization: Basic cmVzdC5hcGk6c3VwZXJzZWNyZXQxMjM=';
