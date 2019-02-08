@@ -1,9 +1,14 @@
 <template>
   <header class="header">
     <AddListDialog ref="addList" v-on:agree-add="agree"/>
-    <h1>NodeNote</h1>
+    <h1>List.A</h1>
     <div id="nav">
-      <SideBar class="menuBtn" ref="SideBar" v-on:items-list="itemsList" v-on:cur-list="emitCurList"/>
+      <SideBar
+        class="menuBtn"
+        ref="SideBar"
+        v-on:items-list="itemsList"
+        v-on:cur-list="emitCurList"
+      />
       <button class="menuBtn" v-on:click="$emit('add-list-dialog')">
         <font-awesome-icon icon="plus"/>
       </button>
@@ -56,7 +61,7 @@ export default {
       }
     },
     emitCurList(list) {
-      this.$emit('cur-list', list);
+      this.$emit("cur-list", list);
     }
   },
   mounted() {
@@ -84,6 +89,7 @@ export default {
 h1 {
   padding: 0;
   flex: 10;
+  font-size: 2.5em;
 }
 
 .menuBtn {

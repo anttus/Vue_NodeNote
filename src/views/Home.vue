@@ -1,12 +1,12 @@
 <template>
-  <div id="app">
+  <div>
     <Header
       ref="Header"
       v-on:add-list-dialog="addListDialog"
       v-on:items-list="renderItems"
       v-on:cur-list="setCurList"
     />
-    <div v-if="currentList !== ''">
+    <div v-if="currentList !== null">
       <div class="homeHeader">
         <h1 class="currentList" v-bind:currentList="currentList">{{currentList.Name}}</h1>
         <button v-on:click="isHidden = !isHidden" class="showHideSharedWith">Shared with: &nbsp;
@@ -47,16 +47,16 @@ export default {
     return {
       items: [],
       user: firebase.auth().currentUser,
-      currentList: Object,
+      currentList: JSON.parse(localStorage.getItem("curList")),
       listSharedTo: [],
-      isHidden: true
+      isHidden: true,
+      listStorage: window.localStorage
     };
   },
   methods: {
     deleteItem(id) {
       let itemToDel = this.items.filter(el => el.Item_id === id)[0];
       this.items = this.items.filter(item => item.Item_id !== id);
-      console.log(itemToDel);
       this.$refs.Header.deleteItem(
         itemToDel.List_id,
         itemToDel.Item_id,
@@ -73,8 +73,9 @@ export default {
           color: "gray"
         })
         .then(value => {
-          if (value) console.log("List added!");
-          else console.log("Cancelled.");
+          if (value) {
+            
+          }
         });
     },
     renderItems(items) {
@@ -85,6 +86,7 @@ export default {
     },
     setCurList(list) {
       this.currentList = list;
+      this.listStorage.setItem("curList", JSON.stringify(list));
       this.getListSharedTo();
     },
     getListSharedTo() {
@@ -95,7 +97,7 @@ export default {
         });
       });
     }
-  }
+  },
 };
 </script>
 
@@ -107,9 +109,9 @@ export default {
   padding: 0;
   align-content: center;
   margin: auto;
+  font-family: "Raleway", sans-serif;
 }
 body {
-  font-family: "Slabo 27px", serif;
   line-height: 1.4;
 }
 .btn {

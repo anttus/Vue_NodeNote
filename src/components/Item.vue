@@ -1,7 +1,8 @@
 <template>
   <div class="list-item" v-bind:class="{'is-complete':item.Completed}">
     <button alt="Set the item as done" v-on:click="setComplete" class="checkComplete">
-      <font-awesome-icon icon="check"/>
+      <font-awesome-icon v-if="!item.Completed" icon="check"/>
+      <font-awesome-icon v-else icon="chevron-up"/>
     </button>
     <div class="item">{{item.Name}}</div>
     <button @click="$emit('delete-item', item.Item_id)" class="delete">
@@ -41,6 +42,9 @@ export default {
 .is-complete {
   text-decoration: line-through;
   color: #a3a3a3;
+}
+.is-complete .checkComplete {
+  opacity: 0.4;
 }
 .delete {
   font-size: 15px;

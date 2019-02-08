@@ -16,7 +16,7 @@
         </div>
       </div>
       <button @click="signOut" class="signOutBtn">
-        <font-awesome-icon icon="sign-out-alt"/>Sign out
+        <font-awesome-icon icon="sign-out-alt"/>&nbsp; Sign out
       </button>
     </Slide>
   </div>
@@ -33,11 +33,11 @@ const db = require("../../api-server/db/dbController");
 export default {
   data() {
     return {
-      curUser: firebase.auth().currentUser,
-      userLists: [],
-      currentList: null, // Localstorage system?
       items: [],
-      listIdToShare: null
+      userLists: [],
+      listIdToShare: null,
+      curUser: firebase.auth().currentUser,
+      currentList: JSON.parse(localStorage.getItem("curList"))
     };
   },
   components: {
@@ -58,6 +58,18 @@ export default {
         .then(value => {
           if (value) {
             db.deleteList(list.List_id).then(() => {
+              if (
+                list.List_id ===
+                JSON.parse(localStorage.getItem("curList")).List_id
+              ) {
+                if (this.userLists.length === 1)
+                  localStorage.removeItem("curList");
+                else
+                  localStorage.setItem(
+                    "curList",
+                    JSON.stringify(this.userLists[0])
+                  );
+              }
               this.getUserLists();
             });
           }
@@ -77,6 +89,13 @@ export default {
       this.currentList = list;
       this.loadItems(this.currentList.List_id);
     },
+    openListByName(listName) {
+      db.getListIdByName(listName, this.curUser.uid).then(res => {
+        // return (this.currentList = this.userLists.find(
+        //   list => list.List_id === res.data[0]["List_id"]
+        // ));
+      });
+    },
     signOut() {
       firebase
         .auth()
@@ -84,12 +103,15 @@ export default {
         .then(() => {
           this.$router.replace("login");
         });
+      localStorage.removeItem("curList");
     },
     getUserLists() {
       db.getListsOfUser(this.curUser.uid).then(res => {
         this.userLists = res.data;
         if (this.userLists.length != 0) {
-          this.currentList = this.userLists[0]; // From localstorage?
+          if (localStorage.getItem("curList") === null) {
+            this.currentList = this.userLists[0];
+          } else this.currentList = JSON.parse(localStorage.getItem("curList"));
           this.loadItems(this.currentList.List_id);
         }
       });

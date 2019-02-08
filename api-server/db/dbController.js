@@ -1,6 +1,7 @@
 "use strict";
 
-const urlStart = "http://anttus.ddns.net:8081/";
+// const urlStart = "http://anttus.ddns.net:8081/";
+const urlStart = "http://localhost:8081/";
 import axios from "axios";
 
 // const AUTH_TOKEN = 'Authorization: Basic cmVzdC5hcGk6c3VwZXJzZWNyZXQxMjM=';
@@ -12,14 +13,13 @@ import axios from "axios";
 // }
 
 async function getFromUrl(url) {
-  const response = await axios
+  return await axios
     .get(url, status => {
       return status < 500; // Reject only if the status code is greater than or equal to 500
     })
     .catch(err => {
       throw new Error(err.message);
     });
-  return response;
 }
 
 // FUTURE DEVELOPMENT
@@ -33,7 +33,7 @@ async function getFromUrl(url) {
 
 // export async function getUser() {
 //   let url = urlStart + "api/users";
-//   return getFromUrl(url);
+//   return await getFromUrl(url);
 // }
 
 // export async function deleteUser(userId) {
@@ -60,18 +60,18 @@ export async function addUser(userId, email) {
 
 export async function checkUserExists(email) {
   let url = urlStart + "api/users/ifexists?email=" + email;
-  return getFromUrl(url);
+  return await getFromUrl(url);
 }
 
 // LISTS
 export async function getListsOfUser(userId) {
   let url = urlStart + "api/lists?userId=" + userId;
-  return getFromUrl(url);
+  return await getFromUrl(url);
 }
 
 export async function getSharedToUsers(listId) {
   let url = urlStart + "api/lists/users/shared?listId=" + listId;
-  return getFromUrl(url);
+  return await getFromUrl(url);
 }
 
 export async function shareList(email, listId) {
@@ -84,7 +84,7 @@ export async function shareList(email, listId) {
 
 export async function addList(userId, listName) {
   let url = urlStart + "api/lists?userId=" + userId + "&listName=" + listName;
-  return axios.put(url).catch(err => {
+  return await axios.put(url).catch(err => {
     throw err;
   });
 }
@@ -103,10 +103,16 @@ export async function deleteList(listId) {
   });
 }
 
+export async function getListIdByName(listName, userId) {
+  let url =
+    urlStart + "api/listbyname?listName=" + listName + "&userId=" + userId;
+  return await getFromUrl(url);
+}
+
 // ITEMS
 export async function getItems(listId) {
   let url = urlStart + "api/items?listId=" + listId;
-  return getFromUrl(url);
+  return await getFromUrl(url);
 }
 
 export async function addItem(listId, itemName) {
