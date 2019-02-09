@@ -106,7 +106,7 @@ export async function deleteList(listId) {
 export async function getListIdByName(listName, userId) {
   let url =
     urlStart + "api/listbyname?listName=" + listName + "&userId=" + userId;
-  return await getFromUrl(url);
+  return getFromUrl(url);
 }
 
 // ITEMS

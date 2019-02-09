@@ -6,7 +6,7 @@
       v-on:items-list="renderItems"
       v-on:cur-list="setCurList"
     />
-    <div v-if="currentList !== null">
+    <div v-if="currentList">
       <div class="homeHeader">
         <h1 class="currentList" v-bind:currentList="currentList">{{currentList.Name}}</h1>
         <button v-on:click="isHidden = !isHidden" class="showHideSharedWith">Shared with: &nbsp;
@@ -68,15 +68,9 @@ export default {
       this.$refs.Header.addItem(newItem); // Chains the function call to SideBar
     },
     addListDialog() {
-      this.$root.$addList
-        .open("Add list", "", {
-          color: "gray"
-        })
-        .then(value => {
-          if (value) {
-            
-          }
-        });
+      this.$root.$addList.open("Add list", "", {
+        color: "gray"
+      });
     },
     renderItems(items) {
       this.items = [];
@@ -97,7 +91,7 @@ export default {
         });
       });
     }
-  },
+  }
 };
 </script>
 

@@ -57,21 +57,7 @@ export default {
         )
         .then(value => {
           if (value) {
-            db.deleteList(list.List_id).then(() => {
-              if (
-                list.List_id ===
-                JSON.parse(localStorage.getItem("curList")).List_id
-              ) {
-                if (this.userLists.length === 1)
-                  localStorage.removeItem("curList");
-                else
-                  localStorage.setItem(
-                    "curList",
-                    JSON.stringify(this.userLists[0])
-                  );
-              }
-              this.getUserLists();
-            });
+            this.deleteList(list);
           }
         });
     },
@@ -85,16 +71,32 @@ export default {
         }
       );
     },
+    deleteList(list) {
+      db.deleteList(list.List_id).then(() => {
+        this.userLists.pop(list);
+        if (
+          list.List_id === JSON.parse(localStorage.getItem("curList")).List_id
+        ) {
+          if (this.userLists.length === 0) {
+            localStorage.removeItem("curList");
+            this.currentList = null;
+            location.reload();
+          } else {
+            localStorage.setItem(
+              "curList",
+              JSON.stringify(this.userLists[this.userLists.length - 1])
+            );
+          }
+        }
+        this.getUserLists();
+      });
+    },
     openList(list) {
       this.currentList = list;
       this.loadItems(this.currentList.List_id);
     },
     openListByName(listName) {
-      db.getListIdByName(listName, this.curUser.uid).then(res => {
-        // return (this.currentList = this.userLists.find(
-        //   list => list.List_id === res.data[0]["List_id"]
-        // ));
-      });
+      return db.getListIdByName(listName, this.curUser.uid);
     },
     signOut() {
       firebase
@@ -119,7 +121,15 @@ export default {
     // Used from Header, that gets the list name from AddListDialog
     addList(listName) {
       db.addList(this.curUser.uid, listName).then(() => {
-        this.getUserLists();
+        db.getListsOfUser(this.curUser.uid).then(res => {
+          this.userLists = res.data;
+          this.openListByName(listName).then(res => {
+            this.currentList = this.userLists.find(
+              list => list.List_id === res.data[0]["List_id"]
+            );
+            this.openList(this.currentList);
+          });
+        });
       });
     },
     addItem(newItem) {
