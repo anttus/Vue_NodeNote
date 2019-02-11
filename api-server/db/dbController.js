@@ -53,9 +53,14 @@ async function getFromUrl(url) {
 // USERS
 export async function addUser(userId, email) {
   let url = urlStart + "api/users?userId=" + userId + "&email=" + email;
-  return axios.put(url).catch(err => {
-    throw err;
-  });
+  return axios
+    .put(url)
+    .then(() => {
+      console.log("User added.");
+    })
+    .catch(err => {
+      throw err;
+    });
 }
 
 export async function checkUserExists(email) {
