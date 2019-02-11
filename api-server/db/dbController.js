@@ -1,7 +1,7 @@
 "use strict";
 
-// const urlStart = "http://anttus.ddns.net:8081/";
-const urlStart = "http://localhost:8081/";
+const urlStart = "http://anttus.ddns.net:8081/";
+// const urlStart = "http://localhost:8081/";
 import axios from "axios";
 
 // const AUTH_TOKEN = 'Authorization: Basic cmVzdC5hcGk6c3VwZXJzZWNyZXQxMjM=';
@@ -54,11 +54,7 @@ async function getFromUrl(url) {
 export async function addUser(userId, email) {
   let url = urlStart + "api/users?userId=" + userId + "&email=" + email;
   return axios
-    .put(url)
-    .then(() => {
-      console.log("User added.");
-    })
-    .catch(err => {
+    .put(url).catch(err => {
       throw err;
     });
 }

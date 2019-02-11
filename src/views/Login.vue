@@ -130,7 +130,6 @@ export default {
         .signInWithRedirect(provider)
         .then(
           result => {
-            db.addUser(result.user.uid, result.user.email);
             this.$router.replace("home");
           },
           err => {

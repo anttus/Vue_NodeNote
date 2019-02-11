@@ -91,6 +91,9 @@ export default {
         });
       });
     }
+  },
+  created() {
+    if(this.user) db.addUser(this.user.uid, this.user.email);
   }
 };
 </script>
