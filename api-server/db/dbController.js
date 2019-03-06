@@ -1,6 +1,6 @@
 "use strict";
 
-const urlStart = "http://anttus.ddns.net:8081/";
+const urlStart = "https://anttus.ddns.net:8081/";
 // const urlStart = "http://localhost:8081/";
 import axios from "axios";
 
