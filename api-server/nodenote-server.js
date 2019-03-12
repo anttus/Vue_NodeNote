@@ -7,8 +7,8 @@ const port = process.env.PORT || 8081;
 const routes = require('./routes/routes');
 const fs = require('fs')
 const https = require('https')
-const privateKey = fs.readFileSync('/home/pi/certs/server.key', 'utf8')
-const certificate = fs.readFileSync('/home/pi/certs/server.cert', 'utf8');
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/anttus.ddns.net/privkey.pem', 'utf8')
+const certificate = fs.readFileSync('/etc/letsencrypt/live/anttus.ddns.net/fullchain.pem', 'utf8');
 
 const credentials = {key: privateKey, cert: certificate};
 
