@@ -5,6 +5,12 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const port = process.env.PORT || 8081;
 const routes = require('./routes/routes');
+const fs = require('fs')
+const https = require('https')
+const privateKey = fs.readFileSync('/home/pi/certs/server.key', 'utf8')
+const certificate = fs.readFileSync('/home/pi/certs/server.cert', 'utf8');
+
+const credentials = {key: privateKey, cert: certificate};
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -12,7 +18,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.set('view engine', 'jade');
 
-app.listen(port, () => console.log('API listening on port ' + port))
+https.createServer(credentials, app).listen(port, () => console.log('API listening on port ' + port))
 
 app.all('/*', function (req, res, next) {
     // CORS headers
