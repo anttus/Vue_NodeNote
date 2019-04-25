@@ -1,8 +1,8 @@
 import Vue from 'vue';
-import Vuex from 'vuex';
 import './plugins/vuetify';
 import App from './App.vue';
 import router from './router';
+import store from './store';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
@@ -43,13 +43,13 @@ library.add(faChevronUp);
 library.add(faCheck);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.use(Vuetify);
-Vue.use(Vuex);
 
 // Initialize the app when Firebase Auth object is ready to use
 firebase.auth().onAuthStateChanged(() => {
     if (!app) {
         app = new Vue({
             router,
+            store,
             render: h => h(App)
         }).$mount('#app');
     }
