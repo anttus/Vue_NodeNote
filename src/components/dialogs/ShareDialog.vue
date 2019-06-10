@@ -63,7 +63,7 @@ export default {
         this.reject = reject;
       });
     },
-    alertEmail(email) {
+    alertEmail() {
       if (this.validateEmail(this.email)) return true;
       else {
         this.inputAlert = true;
@@ -72,7 +72,7 @@ export default {
         }, 1000);
       }
     },
-    alertShare(email) {
+    alertShare() {
       this.inputAlert = true;
       setTimeout(() => {
         this.inputAlert = false;

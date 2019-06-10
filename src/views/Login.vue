@@ -70,7 +70,6 @@ export default {
   name: "login",
   data() {
     return {
-      activetab: 2,
       activetab: 1,
       email: "",
       password: "",
@@ -129,7 +128,7 @@ export default {
         .auth()
         .signInWithRedirect(provider)
         .then(
-          result => {
+          () => {
             this.$router.replace("home");
           },
           err => {

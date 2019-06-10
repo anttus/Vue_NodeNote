@@ -38,7 +38,6 @@
 <script>
 import firebase from "firebase/app";
 import "firebase/auth";
-const db = require("../../../api-server/db/dbController");
 
 export default {
   data: () => ({
