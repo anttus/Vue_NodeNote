@@ -38,6 +38,7 @@ export default {
 .item {
   flex: 10;
   overflow-wrap: break-word;
+  text-transform: capitalize;
 }
 .is-complete {
   text-decoration: line-through;

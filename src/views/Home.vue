@@ -125,6 +125,7 @@ body {
 .currentList {
   text-align: center;
   margin-top: 20px;
+  text-transform: capitalize;
 }
 .homeHeader {
   text-align: center;

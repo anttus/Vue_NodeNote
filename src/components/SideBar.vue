@@ -3,7 +3,6 @@
         <DeleteDialog ref="delete"/>
         <ShareDialog ref="share" v-on:agree-share="shareList"/>
         <Slide right>
-            {{ testStuff }}
             <div class="loggedInUser">{{curUser.email}}</div>
             <div v-bind:key="list.id" v-for="list in userLists">
                 <div class="listElement" href="#">
