@@ -1,4 +1,4 @@
-# NodeNote
+# Lista
 ### A shopping list web app
 
 Built with:
